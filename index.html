@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>NightBreathe</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" />
+    <style>
+        :root {
+            --primary: #FFA726;
+            --secondary: #FB8C00;
+            --bg: #000;
+            --text: #fff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            height: 100vh;
+            width: 100%;
+        }
+
+        .active {
+            display: flex;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .range-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        input[type="range"] {
+            width: 100%;
+        }
+
+        .time-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            background: var(--primary);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        .exercise-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2rem;
+        }
+
+        .box-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            border: 2px solid var(--primary);
+        }
+
+        .dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--secondary);
+            transform: translate(-50%, -50%);
+            will-change: transform;
+        }
+
+        .pulse {
+            animation: pulse 0.3s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.5); }
+            100% { transform: scale(1); }
+        }
+
+        .phase-timer {
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .total-time {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 0.8rem;
+            opacity: 0.5;
+        }
+
+        .phase-name {
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="home" class="page active">
+        <h1>NightBreathe</h1>
+        <div class="controls">
+            <div class="range-group">
+                <label>Phase Duration: <span id="durationValue">4</span>s</label>
+                <input type="range" id="durationSlider" min="3" max="6" value="4" />
+            </div>
+            <div class="time-buttons">
+                <button onclick="startExercise(120)">2 Minutes</button>
+                <button onclick="startExercise(300)">5 Minutes</button>
+                <button onclick="startExercise(600)">10 Minutes</button>
+                <button style="background: #4CAF50;" onclick="startExercise(null)">Start Without Timer</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="exercise" class="page">
+        <div class="exercise-container">
+            <div class="total-time" id="totalTime">0:00</div>
+            <div class="box-container">
+                <div class="dot" id="dot"></div>
+            </div>
+            <div class="phase-timer" id="phaseTimer">4:00</div>
+            <div class="phase-name" id="phaseName">Inhale</div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
